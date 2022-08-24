@@ -1,4 +1,4 @@
-import React , {useState, useEffect, useRef} from "react";
+import React , {useState, useRef} from "react";
 import CategoryFilter from "./CategoryFilter";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
@@ -11,13 +11,6 @@ console.log({ CATEGORIES, TASKS });
 function App() {
   const [tasks, setTasks] = useState(TASKS);
   const tasksCopy = useRef([...tasks]);
-
-  useEffect(() => {
-    let newId = Date.now();
-    const updatedTasks = [...tasks];
-    updatedTasks.map(a => {a.id = a.id || newId++})
-    setTasks(updatedTasks);
-  }, [])
 
   function remove(id){
     const updatedTasks = tasks.filter(a => a.id !== id);
