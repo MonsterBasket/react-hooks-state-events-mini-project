@@ -1,4 +1,4 @@
-export const CATEGORIES = ["All", "Code", "Food", "Money", "Misc"];
+export const CATEGORIES = ["Code", "Food", "Money", "Misc"];
 
 export const TASKS = [
   {
@@ -28,5 +28,5 @@ export const TASKS = [
   {
     text: "Tidy house",
     category: "Misc",
-  },
+  }
 ];
