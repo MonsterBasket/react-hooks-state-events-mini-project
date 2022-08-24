@@ -11,10 +11,10 @@ function NewTaskForm({add, categories}) {
       <label>
         Category
         <select name="category" value={newTask.category} onChange={e => setNewTask({name:newTask.name, category:e.target.value})}>
-          {categories.map(a => <option>{a}</option>)}
+          {categories.map(a => <option key={a}>{a}</option>)}
         </select>
       </label>
-      <input type="submit" value="Add task" onClick={_ => add(newTask.name, newTask.category)}/>
+      <input type="submit" value="Add task" onClick={e => {add(e, newTask.name, newTask.category); setNewTask({name: "", category: newTask.category})}}/>
     </form>
   );
 }

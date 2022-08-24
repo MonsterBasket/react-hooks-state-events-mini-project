@@ -1,4 +1,4 @@
-import React , {useState, useEffect} from "react";
+import React , {useState, useEffect, useRef} from "react";
 import CategoryFilter from "./CategoryFilter";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
@@ -10,34 +10,43 @@ console.log({ CATEGORIES, TASKS });
 
 function App() {
   const [tasks, setTasks] = useState(TASKS);
+  const tasksCopy = useRef([...tasks]);
 
   useEffect(() => {
     let newId = Date.now();
     const updatedTasks = [...tasks];
     updatedTasks.map(a => {a.id = a.id || newId++})
     setTasks(updatedTasks);
-    console.log(tasks);
-}, [])
+  }, [])
 
   function remove(id){
     const updatedTasks = tasks.filter(a => a.id !== id);
+    tasksCopy.current = tasksCopy.current.filter(a => a.id !== id);
     setTasks(updatedTasks);
   }
 
-  function add(name, category){
-    const updatedTasks = [...tasks]
-    updatedTasks.push({
-      id: Date.now(),
-      name: name,
-      category: category
-    })
+  function add(e, name, category){
+    e.preventDefault();
+    const newItem = {
+      text: name,
+      category: category,
+      id: Date.now()
+    }
+    const updatedTasks = [...tasks, newItem];
+    tasksCopy.current.push(newItem);
     setTasks(updatedTasks);
+  }
+
+  function setFilter(choice){
+    // let updatedTasks = [];
+    choice === "All" ? setTasks([...tasksCopy.current]) : setTasks(tasksCopy.current.filter(a => a.category === choice));
+    // setTasks(updatedTasks);
   }
 
   return (
     <div className="App">
       <h2>My tasks</h2>
-      <CategoryFilter />
+      <CategoryFilter categories={CATEGORIES} setFilter={setFilter}/>
       <NewTaskForm add={add} categories={CATEGORIES}/>
       <TaskList tasks={tasks} remove={remove}/>
     </div>
